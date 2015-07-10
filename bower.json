@@ -1,0 +1,16 @@
+{
+  "name": "cl",
+  "version": "0.0.0",
+  "authors": [
+    "qsysmine <echomanari@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "eD",
+    "test",
+    "tests"
+  ]
+}

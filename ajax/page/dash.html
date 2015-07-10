@@ -1,0 +1,27 @@
+<input type="hidden" id="meta-loginRequired" value="true">
+<input type="hidden" id="title" value="Dashboard">
+<h1>Dashboard</h1>
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="thumbnail">
+                    <img class="dash-userIcon" alt="User Icon">
+                </div>
+                <h2><span class="dash-userName"></span></h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Websites</h3>
+            </div>
+            <div class="panel-body">
+                <div id="dash-wsListView-container"></div>
+                <a href="#/dash/new" class="btn btn-primary">+</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/dash.js"></script>

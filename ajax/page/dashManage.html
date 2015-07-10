@@ -1,0 +1,66 @@
+<input type="hidden" id="meta-loginRequired" value="true">
+<input type="hidden" value="Managing Website" id="title">
+<h1>Managing Website <span class="dashManage-wsName"></span></h1>
+<br>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a href="#" id="dashManage-postsLink" class="btn btn-primary btn-lg">Posts</a>
+        <a href="#" id="dashManage-siteLink" class="btn btn-info btn-lg" target="_blank">Visit&nbsp;<i class="fa fa-external-link"></i></a>
+        <a href="#" id="dashManage-apprUsersLink" class="btn btn-success btn-lg">Approved Users</a>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Settings&nbsp;<i class="fa fa-cog"></i></h3>
+    </div>
+    <div class="panel-body">
+        <label for="dashManage-navColour">
+            <b>Nav Colour</b>
+        </label>
+        <br>
+        <input type="color" id="dashManage-navColour">
+        <br>
+        <br>
+        <div class="form-group">
+            <label for="dashManage-siteTitle">
+                <b>Site Title</b>
+            </label>
+            <input type="text" class="form-control" id="dashManage-siteTitle">
+        </div>
+        <div class="form-group">
+            <b>Privacy Level</b>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="privacyRadio" id="dashManage-privacyLevel1" value="1">High [approved users only]
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="privacyRadio" value="0" id="dashManage-privacyLevel0">Low [public]
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <b>Card Style</b>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="dashManage-useMicroCards" value="true">Micro cards.
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="dashManage-usePreviewCards" value="false">Preview cards.
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <b>Subtitle</b>
+            <input type="text" class="form-control" id="dashManage-siteSubtitle">
+        </div>
+        <button class="btn btn-success" id="dashManage-saveSett">Save</button>
+        <br>
+        <br>
+        <button class="btn btn-danger" id="dashManage-deleteButton">Delete Site</button>
+    </div>
+</div>
+<script src="/js/dashManage.js"></script>

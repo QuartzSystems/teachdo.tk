@@ -1,0 +1,10 @@
+<ul class="list-group">
+    {{#items}}
+    <li class="list-group-item">
+        {{{content}}}
+    </li>
+    {{/items}}
+    {{^items}}
+    <li class="list-group-item"><i class="noItemsLoaded">No items loaded.</i></li>
+    {{/items}}
+</ul>
