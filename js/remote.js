@@ -1,4 +1,18 @@
 (function() {
+    
+    var resolveLinks = function() {
+        hostname = new RegExp(location.host);
+        // Act on each link
+        $('a').each(function() {
+            $('a').each(function() {
+                if(this.host !== location.host) {
+                    $(this).removeClass("local").addClass("external");
+                } else {
+                    $(this).removeClass("external").addClass("local").attr("href", $(this).attr("href").split("#topBarColour")[0] + "#topBarColour=" + $('nav').css('backgroundColor'));
+                }
+            });
+        });
+    };
     var fb = new Firebase("https://teachdo.firebaseio.com/");
     var lOD = function(colour) {
         //Light or dark
@@ -23,6 +37,12 @@
             return "#FFF";
         }
     };
+    if(location.hash.split("=")[0] == "#topBarColour") {
+        $('nav').css({
+            backgroundColor: location.hash.split("=")[1],
+            color: lOD(location.hash.split("=")[1])
+        });
+    }
     var hE = function(s) {
         //HTML escape
         var el = document.createElement("div");
@@ -52,6 +72,7 @@
         });
         var assembledSection = headerR + midR + footR;
         $('#main').html(assembledSection);
+        resolveLinks();
     };
     var loadSite = function() {
         var sitePath = fb.child("data/usr/" + siteUser + "/ws/" + siteID);
@@ -60,6 +81,7 @@
             $('.siteTitle').text(siteTitle);
             $('.navbar-brand').attr("href", "/" + siteID);
             $('title').html(siteTitle + " - teachDo");
+            resolveLinks();
         });
         sitePath.child("sett").once("value", function(siteSettS) {
             var siteSett = siteSettS.val();
@@ -74,6 +96,7 @@
             if(window.isHome) {
                 var cnt = 0;
                 $('#main').html("<br><div class='superCentre'><a class='btn btn-info' href='/" + siteID + "/posts'>All Posts</a></div>")
+                resolveLinks();
                 sitePath.child("postIndex").orderByChild("ts").limitToLast(10).on("child_added", function(ncS) {
                     cnt++;
                     var newChild = ncS.val();
@@ -84,6 +107,7 @@
                         var template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h3>{{title}}</h3></a><br><p>{{preview}}</div>{{/up}}"
                     }
                     $('#main').prepend(Mustache.render(template, newChild));
+                    resolveLinks();
                 });
             } else if(window.isPost) {
                 sitePath.child("post/" + window.postID).once("value", function(postS) {
@@ -110,9 +134,10 @@
                         $('#main').prepend(Mustache.render(template, newChild));
                         if(cnt >= len) {
                             $('#main').prepend("<h1>Posts</h1>");
+                            resolveLinks();
                         }
                     });
-                })
+                });
             }
         });
     }
