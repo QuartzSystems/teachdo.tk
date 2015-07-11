@@ -54,9 +54,7 @@
         $('#main').html(assembledSection);
     };
     var loadSite = function() {
-        console.log("loadSite called.");
         var sitePath = fb.child("data/usr/" + siteUser + "/ws/" + siteID);
-        console.log(sitePath.toString());
         sitePath.child("title").once("value", function(siteTitleS) {
             var siteTitle = siteTitleS.val();
             $('.siteTitle').text(siteTitle);
@@ -79,7 +77,6 @@
                 sitePath.child("postIndex").orderByChild("ts").limitToLast(10).on("child_added", function(ncS) {
                     cnt++;
                     var newChild = ncS.val();
-                    console.log(newChild);
                     var template;
                     if(usesMicroCards) {
                         var template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h4>{{title}}</h4></a></div></div>{{/up}}";
@@ -104,7 +101,6 @@
                     sitePath.child("postIndex").orderByChild("ts").on("child_added", function(ncS) {
                         cnt++;
                         var newChild = ncS.val();
-                        console.log(newChild);
                         var template;
                         if(usesMicroCards) {
                             var template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h4>{{title}}</h4></a></div></div>{{/up}}";
@@ -125,15 +121,12 @@
         $('#loginBtn').click(function() {
             fb.authWithOAuthPopup("google", function(error, authData) {
                 if(error) {
-                    console.log("Login Failed!", error);
                     fb.authWithOAuthRedirect("google", function(error, authData) {
                         if(!error) {
-                            console.log("Authenticated successfully with payload:", authData);
                             $('#signup-loginButton').off("click");
                         }
                     });
                 } else {
-                    console.log("Authenticated successfully with payload:", authData);
                     $('#loginBtn').off("click");
                     $('#signupContainer').transition({
                         scale: 0
