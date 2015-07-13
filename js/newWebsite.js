@@ -24,7 +24,10 @@
     newWebsite.validateSubmission = function(url, name) {
         tD.fb.child("data/url/" + url).once("value", function(currS) {
             var curr = currS.val();
-            if(curr) {} else {
+            if(curr) {
+                $.snackbar({content:"I'm sorry, a website with that URL already exists."});
+                $('#newWebsite-submit').transition({scale:1});
+            } else {
                 tD.fb.child("data/usr/" + tD.fb.getAuth().uid + "/ws/" + url).set({
                     title: name,
                     sett: {
@@ -53,6 +56,7 @@
     };
     newWebsite.submit = function(e) {
         e.preventDefault();
+        $('#newWebsite-submit').transition({scale:0});
         var disabled = $('#newWebsite-submit').attr("disabled") == "disabled",
             red = $('#newWebsite-submit').hasClass("btn-danger"),
             green = $('#newWebsite-submit').hasClass("btn-success"),
@@ -65,6 +69,7 @@
             if(!name) $.snackbar({
                 content: "Sorry, your site has to have a name."
             });
+                $('#newWebsite-submit').transition({scale:1});
         } else {
             newWebsite.validateSubmission($('#newWebsite-url').val(), $('#newWebsite-name').val());
         }

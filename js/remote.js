@@ -156,7 +156,7 @@
                     $('#signupContainer').transition({
                         scale: 0
                     }, 600, "cubic-bezier(0,.81,.2,1)", function() {
-                        loadSite();
+                        location.reload();
                     });
                 }
             }, {

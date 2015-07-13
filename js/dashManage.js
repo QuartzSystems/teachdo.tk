@@ -99,6 +99,12 @@
                 dashManage.data = siteSnap.val();
                 $('.dashManage-wsName').text(dashManage.data.title);
                 $('#dashManage-postsLink').attr("href", "/#dash/" + dashManage.page + "/posts");
+                $('#dashManage-newPostLink').click(function(e) {
+                    e.preventDefault();
+                    $(this).transition({scale:0});
+                    window.newPageSiteID = dashManage.page;
+                    $.getScript("/js/newPage.js");
+                });
                 $('#dashManage-siteLink').attr("href", "http://s.teachdo.tk/" + dashManage.page);
                 if(dashManage.data.privacyLevel != 1) {
                     $('#dashManage-apprUsersLink').hide();

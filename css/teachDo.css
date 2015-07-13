@@ -1,6 +1,18 @@
 /*COLOUR*/
  body {
     background-color:#E5E5E5;
+    display:flex;
+    display:-webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction:vertical;
+     min-height:130vh;
+}
+#siteMain {
+    flex:1;
+}
+footer {
+    background-color:#FFF;
+    box-shadow:0px 0px 10px 10px #FFF;
 }
 .navbar {
     background-color:#8057f2;
@@ -26,6 +38,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+     flex-direction:column;
 }
 .hidden {
     display:none;
