@@ -45,7 +45,7 @@
                                     content: Mustache.render(linkView, {
                                         "content": tD.hE(res[i].title),
                                         "hr": "#/dash/" + posts.siteID + "/" + res[i].id
-                                    }) + "<br><p>" + tD.hE(tDres[i].preview) + "</p><br> <b>Tags:</b><a href='#/dash/" + posts.siteID + "/posts'><span class='badge'>" + (res[i].tags.split(",").join("</span><span class='badge'>")) + "</span></a>"
+                                    }) + "<br><p>" + tD.hE(res[i].preview) + "</p><br> <b>Tags:</b><a href='#/dash/" + posts.siteID + "/posts'><span class='badge'>" + (res[i].tags.split(",").join("</span><span class='badge'>")) + "</span></a>"
                                 });
                             }
                         }

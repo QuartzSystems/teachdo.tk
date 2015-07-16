@@ -1,5 +1,4 @@
 (function() {
-    
     var resolveLinks = function() {
         hostname = new RegExp(location.host);
         // Act on each link
@@ -122,21 +121,67 @@
                     var postIndex = pIS.val();
                     var len = Object.keys(postIndex).length;
                     var cnt = 0;
-                    sitePath.child("postIndex").orderByChild("ts").on("child_added", function(ncS) {
-                        cnt++;
-                        var newChild = ncS.val();
-                        var template;
-                        if(usesMicroCards) {
-                            var template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h4>{{title}}</h4></a></div></div>{{/up}}";
-                        } else {
-                            var template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h3>{{title}}</h3></a><br><p>{{preview}}</div>{{/up}}"
+                    var srch = (location.search ? location.search.split("?")[1].split("&") : "");
+                    var searchTerm = "";
+                    for(var s in srch) {
+                        if(srch[s].split("=")[0] == "q") {
+                            searchTerm = srch[s].split("=")[1];
                         }
-                        $('#main').prepend(Mustache.render(template, newChild));
-                        if(cnt >= len) {
-                            $('#main').prepend("<h1>Posts</h1>");
-                            resolveLinks();
-                        }
-                    });
+                    }
+                    $('#main').html("");
+                    if(!searchTerm) {
+                        sitePath.child("postIndex").orderByChild("ts").on("child_added", function(ncS) {
+                            cnt++;
+                            console.log(searchTerm);
+                            var newChild = ncS.val();
+                            var template;
+                            if(usesMicroCards) {
+                                template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h4>{{title}}</h4></a></div></div>{{/up}}";
+                            } else {
+                                template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + ncS.key() + "/'><h3>{{title}}</h3></a><br><p>{{preview}}</div>{{/up}}"
+                            }
+                            $('#main').prepend(Mustache.render(template, newChild));
+                            if(cnt >= len) {
+                                $('#main').prepend("<form class='form-group'><input class='form-control' name='q' required placeholder='Search.'></form><br><h1>Posts</h1>");
+                                resolveLinks();
+                            }
+                        });
+                    } else {
+                        $.getScript("https://cdn.rawgit.com/krisk/fuse/master/src/fuse.min.js", function() {
+                            var q = [];
+                            for(var s in postIndex) {
+                                var z = postIndex[s];
+                                z.k = s;
+                                q.push(z);
+                            }
+                            var options = {
+                                keys: ['title', 'preview', 'tags']
+                            }
+                            var f = new Fuse(q, options);
+                            window.f = f;
+                            var res = f.search(searchTerm);
+                            console.log(res);
+                            var len = res.length
+                            for(var i in res) {
+                                var cnt = i + 1;
+                                var template;
+                                if(usesMicroCards) {
+                                    template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + res[i].k + "/'><h4>{{title}}</h4></a></div></div>{{/up}}";
+                                } else {
+                                    template = "{{#up}}<div class='panel panel-default'><div class='panel-body'><a href='/" + siteID + "/post/" + res[i].k + "/'><h3>{{title}}</h3></a><br><p>{{preview}}</div>{{/up}}"
+                                }
+                                $('#main').prepend(Mustache.render(template, res[i]));
+                                if(cnt >= len) {
+                                    $('#main').prepend("<form class='form-group'><input class='form-control' name='q' required placeholder='Search.'></form><br><h1>Results for '" + hE(searchTerm) + "'</h1>");
+                                    resolveLinks();
+                                }
+                            }
+                            if(len == 0) {
+                                $('#main').html("<form class='form-group'><input class='form-control' name='q' required placeholder='Search.'></form><br><h1>No results for '" + hE(searchTerm) + "'</h1>");
+                                resolveLinks();
+                            }
+                        });
+                    }
                 });
             }
         });
