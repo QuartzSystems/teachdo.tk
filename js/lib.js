@@ -118,5 +118,24 @@
             });
         }
     };
+    lib.regIT = function($btn) {
+        $($btn).mouseenter(function() {
+            $(this).children("span").css({
+                display: "inline",
+                scale:0,
+                fontSize:0
+            }).transition({
+                scale: 1,
+                fontSize:"1em"
+            });
+        }).mouseleave(function() {
+            $(this).children("span").transition({
+                scale:0,
+                fontSize:0
+            }, function() {
+                $(this).hide();
+            });
+        });
+    };
     window.tD = lib;
 })();
