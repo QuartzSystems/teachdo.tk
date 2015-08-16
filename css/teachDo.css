@@ -4,15 +4,17 @@
     display:flex;
     display:-webkit-flex;
     flex-direction:column;
-    -webkit-flex-direction:vertical;
+    -webkit-flex-direction:column;
     min-height:130vh;
 }
 #siteMain {
     flex:1;
+    -webkit-flex:1;
 }
 footer {
     background-color:#FFF;
     box-shadow:0px 0px 10px 10px #FFF;
+    padding:1em;
 }
 .navbar {
     background-color:#8057f2;
@@ -51,9 +53,13 @@ footer {
 }
 .superCentre {
     display: flex;
+    display:-webkit-flex;
     justify-content: center;
+    -webkit-justify-content:center;
     align-items: center;
+    -webkit-align-items:center;
     flex-direction:column;
+    -webkit-flex-direction:column;
 }
 .hidden {
     display:none;
