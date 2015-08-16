@@ -23,7 +23,7 @@
                 inf.emE = inf.em.split(".").join(",");
             }
             if(!pic || (pic != "https://lh3.googleusercontent.com/-CzWv1rLfZy8/AAAAAAAAAAI/AAAAAAAAAAA/qt2U_sJAC3w/photo.jpg" && pic != tD.fb.getAuth().google.cachedUserProfile.picture)) {
-                inf.img = (tD.fb.getAuth().google.cachedUserProfile ? tD.fb.getAuth().google.cachedUserProfile : "https://lh3.googleusercontent.com/-CzWv1rLfZy8/AAAAAAAAAAI/AAAAAAAAAAA/qt2U_sJAC3w/photo.jpg");
+                inf.img = (tD.fb.getAuth().google.cachedUserProfile.picture ? tD.fb.getAuth().google.cachedUserProfile.picture : "https://lh3.googleusercontent.com/-CzWv1rLfZy8/AAAAAAAAAAI/AAAAAAAAAAA/qt2U_sJAC3w/photo.jpg");
             }
             tD.fb.child("data/usr/" + tD.fb.getAuth().uid + "/meta/inf").set(inf, function() {
                 inf.uid = tD.fb.getAuth().uid;
