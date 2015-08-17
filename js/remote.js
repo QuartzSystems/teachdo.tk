@@ -42,6 +42,15 @@
             color: lOD(location.hash.split("=")[1])
         });
     }
+    var uP = function(url) {
+        var sU = url.split(":");
+        var ext = sU[0];
+        ext = (ext == "http" || ext == "https" ? ext : "http"); //DETERMINE URL PROTOCOL
+        var uri = (sU[1] ? sU[1] : sU[0]);
+        var s_U = uri.split("/");
+        var dom = (s_U[0] == "" && s_U[1] == "" ? s_U[2] : s_U[0]); //DETERMING DOMAIN NAME AND SUBDOMAIN
+        return [ext, dom];
+    };
     var hE = function(s) {
         //HTML escape
         var el = document.createElement("div");
@@ -55,19 +64,40 @@
         var converter = Markdown.getSanitizingConverter();
         var content = converter.makeHtml(post.content.split("script").join("SANITISED"));
         var tags = hE(post.tags);
+        var attachment = post.attachment;
+        var attachmentName;
+        var attachmentURL;
+        var hasAttachment = false;
+        if(attachment) {
+            attachmentName = attachment.name;
+            attachmentURL = attachment.url;
+            if(uP(attachmentURL)[1] == "drive.google.com" && uP(attachmentURL)[0] == "https") {
+                hasAttachment = true;
+            }
+        }
         var headerSection = "<h1>{{title}}</h1><br>";
         var midSection = "<div class='panel panel-default'><div class='panel-body'>{{{content}}}</div></div><br>";
-        var footSection = "<h3>Tags</h3>{{{tagsRendered}}}";
+        var attachmentT = "{{#hasAttachment}}<h3>Attachment</h3><div class='row'><div class='col-md-4 col-xs-12'><a target='_blank' href='{{attachmentURL}}'>{{attachmentName}}</a></div></div><br><br>{{/hasAttachment}}"
+        var footSection = "<h3>Tags</h3>{{{tagsRendered}}}<br>{{{attachmentRendered}}}";
         var headerR = Mustache.render(headerSection, {
             title: title
         });
         var midR = Mustache.render(midSection, {
             content: content
         });
+        var attachmentR = "";
+        if(hasAttachment) {
+            attachmentR = Mustache.render(attachmentT, {
+                attachmentURL: attachmentURL,
+                attachmentName: attachmentName,
+                hasAttachment: hasAttachment
+            });
+        }
         var tS = tags.split(" ").join("").split(",");
         var tagsRendered = "<h5><span class='label label-default'>" + tS.join("</span><span class='badge'>") + "</span></h5>";
         var footR = Mustache.render(footSection, {
-            tagsRendered: tagsRendered
+            tagsRendered: tagsRendered,
+            attachmentRendered: attachmentR
         });
         var assembledSection = headerR + midR + footR;
         $('#main').html(assembledSection);

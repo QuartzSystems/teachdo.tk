@@ -1,6 +1,63 @@
 (function() {
     //NAMESPACE EDIT
     var edit = {};
+    //
+    //
+    edit.developerKey = "AIzaSyA1R-udkJcLPiBA7E_jqXsXHRTMpvB1FMI"; // The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
+    edit.clientId = "422024787105-vgoh3tm6btt7noccav67lnuub8s79ds1.apps.googleusercontent.com"
+    edit.appId = "422024787105";
+    edit.scope = ['https://www.googleapis.com/auth/drive'];
+    edit.pickerApiLoaded = false;
+    edit.oauthToken;
+    edit.onAuthApiLoad = function() {
+        $('#edit-attachButton').click(function() {
+            window.gapi.auth.authorize({
+                'client_id': edit.clientId,
+                'scope': edit.scope,
+                'immediate': false
+            }, edit.handleAuthResult);
+        });
+    };
+    edit.onPickerApiLoad = function() {
+        edit.pickerApiLoaded = true;
+        edit.createPicker();
+    };
+    edit.handleAuthResult = function(authResult) {
+        if(authResult && !authResult.error) {
+            edit.oauthToken = authResult.access_token;
+            edit.createPicker();
+        }
+    };
+    edit.createPicker = function() {
+        if(edit.pickerApiLoaded && edit.oauthToken) {
+            var view = new google.picker.View(google.picker.ViewId.DOCS);
+            //view.setMimeTypes("image/png,image/jpeg,image/jpg");
+            var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.NAV_HIDDEN).setAppId(edit.appId).setOAuthToken(edit.oauthToken).addView(view).addView(new google.picker.DocsUploadView()).setDeveloperKey(edit.developerKey).setCallback(edit.pickerCallback).build();
+            picker.setVisible(true);
+        }
+    };
+    edit.cP = {};
+    edit.pickerCallback = function(data) {
+        if(data.action == google.picker.Action.PICKED) {
+            var fileId = data.docs[0].id;
+            var fileURL = data.docs[0].url;
+            var fileName = data.docs[0].name;
+            edit.cP.attachment = {
+                url: fileURL,
+                name: fileName
+            };
+            $('#edit-attachedFile').addClass("vis").removeClass("unvis");
+            $('#edit-removeAttachedFile').addClass("vis").removeClass("unvis");
+            $('#edit-attachedFile').text(fileName);
+            edit.populateDB();
+            console.log(data.docs[0]);
+        }
+    };
+    $('#edit-removeAttachedFile').click(function() {
+        edit.cP.attachment = null;
+    });
+    //
+    //
     edit.wsID = editSiteID;
     edit.pageID = editPageID;
     edit.getPaths = function() {
@@ -12,7 +69,6 @@
         paths.postIndexPath = paths.sitePath.child("postIndex/" + edit.pageID);
         return paths;
     };
-    edit.cP = {};
     var lO = false;
     edit.loadContent = function(postS) {
         var post = postS.val();
@@ -26,6 +82,15 @@
         if(!lO) {
             $elT.val(post.title);
             $elTa.val(post.tags);
+        }
+        if(edit.cP.attachment) {
+            $('#edit-attachedFile').text(edit.cP.attachment.name);
+            $('#edit-removeAttachedFile, #edit-attachedFile').removeClass("unvis").addClass("vis");
+        } else {
+            $('#edit-attachedFile, #edit-removeAttachedFile').removeClass("vis").addClass("unvis");
+            setTimeout(function() {
+                $('#edit-attachedFile').text("");
+            }, 400);
         }
         lO = true;
         if(edit.cP.up) {
@@ -41,7 +106,8 @@
             id: edit.pageID,
             ts: edit.cP.ts,
             tags: edit.cP.tags,
-            up: edit.cP.up
+            up: edit.cP.up,
+            hasAttachment: (edit.cP.attachment ? true : false)
         }, function() {
             $('#creSav').text("Saved ");
             var time = new Date();
@@ -57,6 +123,7 @@
         edit.cP.tags = $('#edit-postTags').val();
         if(!edit.cP.up) edit.cP.up = false;
         if(!edit.cP.ts) edit.cP.ts = new Date().getTime();
+        if(!edit.cP.attachment) edit.cP.attachment = null;
         paths.postPath.set(edit.cP, edit.onPopulate);
     };
     edit.isPopulatingDB = false;
@@ -121,6 +188,13 @@
                     });
                     edit.populateDB();
                 });
+                $('#edit-removeAttachedFile').click(function() {
+                    edit.cP.attachment = null;
+                    $.snackbar({
+                        content: "Attachment removed."
+                    });
+                    edit.populateDB();
+                });
                 edit.registerDow();
                 edit.registerPop();
             } else {
@@ -128,5 +202,6 @@
             }
         });
     };
+    window.edit = edit;
     edit.start();
 })();
