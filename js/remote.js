@@ -12,6 +12,19 @@
             });
         });
     };
+    var isRemote = window.self !== window.top;
+    if(isRemote) {
+        var remoteOrigin;
+        var remoteWindow;
+        window.addEventListener('message', function(event) {
+            if(event.data != "EMBEDSIG") return;
+            remoteOrigin = event.origin;
+            remoteWindow = event.source;
+            remoteWindow.postMessage({
+                "path": location.pathname
+            }, remoteOrigin);
+        }, false);
+    }
     var fb = new Firebase("https://teachdo.firebaseio.com/");
     var lOD = function(colour) {
         //Light or dark
@@ -217,7 +230,7 @@
         });
     }
     if(loginRequired && !fb.getAuth()) {
-        $('#main').addClass("superCentre").html("<div class='panel panel-default' id='signupContainer'><div class='panel-body'>You need to <button class='btn btn-danger btn-lg' id='loginBtn'>Log in</button> to view this site.</div></div>");
+        $('#main').addClass("superCentre").html("<div class='panel panel-default' id='signupContainer'><div class='panel-body'>You need to <button class='btn btn-danger btn-lg' id='loginBtn'>Log in with Google</button> to view this site.</div></div>");
         $('#loginBtn').click(function() {
             fb.authWithOAuthPopup("google", function(error, authData) {
                 if(error) {
