@@ -86,15 +86,16 @@
         if(animCondition[0]) animNo = 0;
         if(animCondition[1]) animNo = 1;
         console.log(animNo);
-        /*$('body').animate({
+        $('body').animate({
             scrollTop: 0
-        });*/
+        });
         lib.npS();
         $.get("/ajax/page/" + name + ".html", function(d) {
             var curr$main = $('#main');
             if(animNo == 2) {
                 $('#main').html(d);
             } else if(animNo == 1) {
+                $('footer').slideUp();
                 $('#main').css({
                     position: "absolute",
                     left: 0,
@@ -104,13 +105,15 @@
                     x: -1 * screen.width
                 }, 1000, "ease-in-out", function() {
                     $(this).remove();
+                    $('footer').slideDown();
                 });
                 $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
                     position: "absolute",
                     left: 0,
                     right: 0,
                     x: screen.width
-                }).appendTo("main").transition({
+                }).appendTo("main");
+                $('#nMain').transition({
                     x: 0
                 }, 1003, "ease-in-out", function() {
                     $(this).attr("id", "main");
@@ -119,6 +122,7 @@
                     });
                 });
             } else {
+                $('footer').slideUp();
                 $('#main').transition({
                     position: "absolute",
                     left: 0,
@@ -126,17 +130,21 @@
                     x: screen.width
                 }, 1000, "ease-in-out", function() {
                     $(this).remove();
+                    $('footer').slideDown();
                 });
                 $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
                     position: "absolute",
                     left: 0,
                     right: 0,
                     x: -1 * screen.width
-                }).appendTo("main").transition({
+                }).appendTo("main");
+                $('#nMain').transition({
                     x: 0
                 }, 1003, "ease-in-out", function() {
                     $(this).attr("id", "main");
-                    $(this).css({position:"static"});
+                    $(this).css({
+                        position: "static"
+                    });
                 });
             }
             lib.setTitle($('#title').val());

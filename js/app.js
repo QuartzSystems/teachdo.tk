@@ -10,7 +10,7 @@
     var prev = "";
     var routes = {
         '/': function() {
-            tD.loadPage("home", [(prev != ""), (false), (prev == "" || prev == "/")]);
+            tD.loadPage("home", [false, false, true]);
             prev = "/";
         },
         '/signup': function() {

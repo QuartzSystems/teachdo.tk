@@ -25,20 +25,20 @@
                     tD.fb.child("data/usr/" + uid + "/meta/inf").once("value", function(mS) {
                         var m = mS.val();
                         sitePath.child("approvedUsers/" + uid).set(m, function() {
-                            $.snackbar({content:"User added"});
+                            $.snackbar({content:"User successfully approved."});
                         });
                     });
                 });
             } else {
                 $.snackbar({
-                    content: "That user is already approved!"
+                    content: "You can't approve a student that is already approved."
                 });
             }
         });
     };
     newApprovedUser.showPopup = function() {
         bootbox.prompt({
-            title: "What is the user's e-mail?",
+            title: "What is the student's e-mail?",
             callback: function(result) {
                 if(result) {
                     if(!tD.isEmail(result)) {

@@ -11,6 +11,9 @@ html, body {
     -webkit-flex-direction:column;
     min-height:130vh;
 }
+.thumbnail {
+    padding:0;
+}
 #siteMain {
     flex:1;
     -webkit-flex:1;
@@ -44,8 +47,7 @@ footer {
     width: 3em;
     height: 3em;
 }
-/*JUSTIFY*/
- .btn>.btn-iT {
+.btn>.btn-iT {
     font-size:0;
     transform: scale(0);
     transition: all 0.3s ease-in-out;
