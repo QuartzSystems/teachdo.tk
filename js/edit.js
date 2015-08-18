@@ -32,7 +32,7 @@
         if(edit.pickerApiLoaded && edit.oauthToken) {
             var view = new google.picker.View(google.picker.ViewId.DOCS);
             //view.setMimeTypes("image/png,image/jpeg,image/jpg");
-            var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.NAV_HIDDEN).setAppId(edit.appId).setOAuthToken(edit.oauthToken).addView(view).addView(new google.picker.DocsUploadView()).setDeveloperKey(edit.developerKey).setCallback(edit.pickerCallback).build();
+            var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.NAV_HIDDEN).setAppId(edit.appId).setOAuthToken(edit.oauthToken).addView(view).addView(new google.picker.DocsUploadView())/*.setDeveloperKey(edit.developerKey)*/.setCallback(edit.pickerCallback).build();
             picker.setVisible(true);
         }
     };
