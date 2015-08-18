@@ -14,7 +14,7 @@
             prev = "/";
         },
         '/signup': function() {
-            tD.loadPage("signup", [(prev != "/" && prev != ""), (prev == "/"), (prev == "")]);
+            tD.loadPage("signup", [false, false, true]);
             prev = "/signup";
         },
         '/logout': function() {
@@ -68,6 +68,7 @@
     var router = Router(routes);
     if(!location.hash) {
         location.hash = "#/";
+        prev = "/";
     }
     router.init();
 })();
