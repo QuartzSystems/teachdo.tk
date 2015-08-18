@@ -78,13 +78,67 @@
         $('title').html(title + " | teachDo | QZ");
     };
     lib.fb = new Firebase("https://teachdo.firebaseio.com/");
-    lib.loadPage = function(name, cb) {
-        $('body').animate({
+    lib.loadPage = function(name, animCondition) {
+        //
+        //
+        console.log(animCondition);
+        var animNo = 2;
+        if(animCondition[0]) animNo = 0;
+        if(animCondition[1]) animNo = 1;
+        console.log(animNo);
+        /*$('body').animate({
             scrollTop: 0
-        });
+        });*/
         lib.npS();
         $.get("/ajax/page/" + name + ".html", function(d) {
-            $('#main').html(d);
+            var curr$main = $('#main');
+            if(animNo == 2) {
+                $('#main').html(d);
+            } else if(animNo == 1) {
+                $('#main').css({
+                    position: "absolute",
+                    left: 0,
+                    right: 0
+                });
+                $('#main').transition({
+                    x: -1 * screen.width
+                }, 1000, "ease-in-out", function() {
+                    $(this).remove();
+                });
+                $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    x: screen.width
+                }).appendTo("main").transition({
+                    x: 0
+                }, 1003, "ease-in-out", function() {
+                    $(this).attr("id", "main");
+                    $(this).css({
+                        position: "static"
+                    });
+                });
+            } else {
+                $('#main').transition({
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    x: screen.width
+                }, 1000, "ease-in-out", function() {
+                    $(this).remove();
+                });
+                $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    x: -1 * screen.width
+                }).appendTo("main").transition({
+                    x: 0
+                }, 1003, "ease-in-out", function() {
+                    $(this).attr("id", "main");
+                    $(this).css({position:"static"});
+                });
+            }
             lib.setTitle($('#title').val());
             lib.npF();
             if(window.regFbE && window.regFbE.length > 0) {
@@ -102,7 +156,6 @@
             } else {
                 $('#backLink').fadeIn();
             }
-            if(cb) cb();
         });
     };
     lib.getView = function(view, cb) {
@@ -122,16 +175,16 @@
         $($btn).mouseenter(function() {
             $(this).children("span").css({
                 display: "inline",
-                scale:0,
-                fontSize:0
+                scale: 0,
+                fontSize: 0
             }).transition({
                 scale: 1,
-                fontSize:"1em"
+                fontSize: "1em"
             });
         }).mouseleave(function() {
             $(this).children("span").transition({
-                scale:0,
-                fontSize:0
+                scale: 0,
+                fontSize: 0
             }, function() {
                 $(this).hide();
             });

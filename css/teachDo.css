@@ -1,3 +1,7 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 /*COLOUR*/
  body {
     background-color:#E5E5E5;
@@ -10,6 +14,11 @@
 #siteMain {
     flex:1;
     -webkit-flex:1;
+    position:relative;
+}
+#main, #nMain {
+    overflow:auto;
+    z-index:1;
 }
 footer {
     background-color:#FFF;

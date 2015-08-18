@@ -94,9 +94,9 @@
         }
         lO = true;
         if(edit.cP.up) {
-            $('#edit-publishRetractPost').removeClass("btn-success").addClass("btn-danger").html("Retract Post");
+            $('#edit-publishRetractPost').removeClass("btn-success").addClass("btn-danger").html("Retract <span class=\"hidden-xs\">Post</span>");
         } else {
-            $('#edit-publishRetractPost').removeClass("btn-danger").addClass("btn-primary").html("Publish Post");
+            $('#edit-publishRetractPost').removeClass("btn-danger").addClass("btn-primary").html("Publish <span class=\"hidden-xs\">Post</span>");
         }
     };
     edit.onPopulate = function() {
