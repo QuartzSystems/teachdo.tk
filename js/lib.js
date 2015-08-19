@@ -86,84 +86,85 @@
         if(animCondition[0]) animNo = 0;
         if(animCondition[1]) animNo = 1;
         console.log(animNo);
-        $('body').animate({
-            scrollTop: 0
-        });
         lib.npS();
         $.get("/ajax/page/" + name + ".html", function(d) {
-            var curr$main = $('#main');
-            if(animNo == 2) {
-                $('#main').html(d);
-            } else if(animNo == 1) {
-                $('footer').slideUp();
-                $('#main').css({
-                    position: "absolute",
-                    left: 0,
-                    right: 0
-                });
-                $('#main').transition({
-                    x: -1 * screen.width
-                }, 1000, "ease-in-out", function() {
-                    $(this).remove();
-                    $('footer').slideDown();
-                });
-                $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    x: screen.width
-                }).appendTo("main");
-                $('#nMain').transition({
-                    x: 0
-                }, 1003, "ease-in-out", function() {
-                    $(this).attr("id", "main");
-                    $(this).css({
-                        position: "static"
+            $('body').animate({
+                "scrollTop": 0
+            }, $('body').scrollTop() * 2, function() {
+                var curr$main = $('#main');
+                if(animNo == 2) {
+                    $('#main').html(d);
+                } else if(animNo == 1) {
+                    $('footer').slideUp();
+                    $('#main').css({
+                        position: "absolute",
+                        left: 0,
+                        right: 0
                     });
-                });
-            } else {
-                $('footer').slideUp();
-                $('#main').transition({
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    x: screen.width
-                }, 1000, "ease-in-out", function() {
-                    $(this).remove();
-                    $('footer').slideDown();
-                });
-                $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    x: -1 * screen.width
-                }).appendTo("main");
-                $('#nMain').transition({
-                    x: 0
-                }, 1003, "ease-in-out", function() {
-                    $(this).attr("id", "main");
-                    $(this).css({
-                        position: "static"
+                    $('#main').transition({
+                        x: -1 * screen.width
+                    }, 1000, "ease-in-out", function() {
+                        $(this).remove();
+                        $('footer').slideDown();
                     });
-                });
-            }
-            lib.setTitle($('#title').val());
-            lib.npF();
-            if(window.regFbE && window.regFbE.length > 0) {
-                for(var e in window.regFbE) {
-                    window.regFbE[e].off("value");
+                    $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        x: screen.width
+                    }).appendTo("main");
+                    $('#nMain').transition({
+                        x: 0
+                    }, 1003, "ease-in-out", function() {
+                        $(this).attr("id", "main");
+                        $(this).css({
+                            position: "static"
+                        });
+                    });
+                } else {
+                    $('footer').slideUp();
+                    $('#main').transition({
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        x: screen.width
+                    }, 1000, "ease-in-out", function() {
+                        $(this).remove();
+                        $('footer').slideDown();
+                    });
+                    $('<div id="nMain" class="container-fluid">' + d + '</div>').css({
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        x: -1 * screen.width
+                    }).appendTo("main");
+                    $('#nMain').transition({
+                        x: 0
+                    }, 1003, "ease-in-out", function() {
+                        $(this).attr("id", "main");
+                        $(this).css({
+                            position: "static"
+                        });
+                    });
                 }
-            }
-            window.regFbE = [];
-            if(window.pDBI) clearInterval(window.pDBI)
-            if($('#meta-loginRequired').get().length > 0 && !lib.fb.getAuth()) {
-                location.hash = "#/signup";
-            }
-            if(location.hash == "#/" || name == "home") {
-                $('#backLink').fadeOut();
-            } else {
-                $('#backLink').fadeIn();
-            }
+                lib.setTitle($('#title').val());
+                lib.npF();
+                if(window.regFbE && window.regFbE.length > 0) {
+                    for(var e in window.regFbE) {
+                        window.regFbE[e].off("value");
+                    }
+                }
+                window.regFbE = [];
+                if(window.pDBI) clearInterval(window.pDBI)
+                if($('#meta-loginRequired').get().length > 0 && !lib.fb.getAuth()) {
+                    location.hash = "#/signup";
+                }
+                if(location.hash == "#/" || name == "home") {
+                    $('#backLink').fadeOut();
+                } else {
+                    $('#backLink').fadeIn();
+                }
+            });
         });
     };
     lib.getView = function(view, cb) {

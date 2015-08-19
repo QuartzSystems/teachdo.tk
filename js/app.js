@@ -3,8 +3,8 @@
         throw "loadingError: tD not defined.";
     }
     var TRANSITS = {
-        "BACK":0,
-        "FORWARD":1,
+        "BACK": 0,
+        "FORWARD": 1,
         "NONE": 2
     };
     var prev = "";
@@ -14,7 +14,11 @@
             prev = "/";
         },
         '/signup': function() {
-            tD.loadPage("signup", [false, false, true]);
+            if(prev == "/dash" && tD.fb.getAuth()) {
+                location.hash = "#/";
+            } else {
+                tD.loadPage("signup", [false, false, true]);
+            }
             prev = "/signup";
         },
         '/logout': function() {
@@ -49,7 +53,7 @@
             window.editSiteID = site;
             window.editPageID = post;
             console.log(site, post);
-            tD.loadPage("edit", [(prev != "/dash/" + site + "/posts" && prev != ""), (prev == "/dash"), (prev == "")]);
+            tD.loadPage("edit", [(prev != "/dash/" + site + "/posts" && prev != ""), (prev == "/dash/" + site + "/posts" || prev == "/dash"), (prev == "")]);
             prev = "/dash/" + site + "/" + post;
         },
         '/404': function() {
