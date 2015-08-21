@@ -32,7 +32,7 @@
         if(edit.pickerApiLoaded && edit.oauthToken) {
             var view = new google.picker.View(google.picker.ViewId.DOCS);
             //view.setMimeTypes("image/png,image/jpeg,image/jpg");
-            var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.NAV_HIDDEN).setAppId(edit.appId).setOAuthToken(edit.oauthToken).addView(view).addView(new google.picker.DocsUploadView())/*.setDeveloperKey(edit.developerKey)*/.setCallback(edit.pickerCallback).build();
+            var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.NAV_HIDDEN).setAppId(edit.appId).setOAuthToken(edit.oauthToken).addView(view).addView(new google.picker.DocsUploadView()) /*.setDeveloperKey(edit.developerKey)*/ .setCallback(edit.pickerCallback).build();
             picker.setVisible(true);
         }
     };
@@ -74,7 +74,9 @@
         var post = postS.val();
         edit.cP = post;
         var time = new Date();
-        time.setTime(edit.cP.ts);
+        time.setTime((edit.cP.lastTs ? edit.cP.lastTs : edit.cP.ts));
+        $('time').text(moment(time.getTime()).fromNow());
+        $('#creSav').text("Last saved ").addClass("vis").removeClass("unvis");
         var $el = $('#edit-postEditor');
         var $elT = $('#edit-postTitle');
         var $elTa = $('#edit-postTags');
@@ -109,10 +111,9 @@
             up: edit.cP.up,
             hasAttachment: (edit.cP.attachment ? true : false)
         }, function() {
-            $('#creSav').text("Saved ");
+            if($('#creSav').text() != "Saved ") $('#creSav').text("Saved ");
             var time = new Date();
-            $('time').attr('datetime', time.toISOString());
-            $('time').timeago();
+            $('time').text(moment(time.getTime()).fromNow());
         });
     };
     edit.populateDB = function() {
@@ -123,6 +124,7 @@
         edit.cP.tags = $('#edit-postTags').val();
         if(!edit.cP.up) edit.cP.up = false;
         if(!edit.cP.ts) edit.cP.ts = new Date().getTime();
+        edit.cP.lastTs = new Date().getTime();
         if(!edit.cP.attachment) edit.cP.attachment = null;
         paths.postPath.set(edit.cP, edit.onPopulate);
     };

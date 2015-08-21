@@ -102,7 +102,7 @@
                         right: 0
                     });
                     $('#main').transition({
-                        x: -1 * screen.width
+                        x: (-1 * screen.width) - 100
                     }, 1000, "ease-in-out", function() {
                         $(this).remove();
                         $('footer').slideDown();
@@ -127,7 +127,7 @@
                         position: "absolute",
                         left: 0,
                         right: 0,
-                        x: screen.width
+                        x: screen.width + 100
                     }, 1000, "ease-in-out", function() {
                         $(this).remove();
                         $('footer').slideDown();
