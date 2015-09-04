@@ -17,12 +17,17 @@
         var remoteOrigin;
         var remoteWindow;
         window.addEventListener('message', function(event) {
-            if(event.data != "EMBEDSIG") return;
             remoteOrigin = event.origin;
             remoteWindow = event.source;
-            remoteWindow.postMessage({
-                "path": location.pathname
-            }, remoteOrigin);
+            if(event.data.t == "checkPath") {
+                console.log("checkPath");
+                remoteWindow.postMessage({
+                    "path": location.pathname
+                }, remoteOrigin);
+            } else if(event.data.t == "changeHash") {
+                console.log("changeHash " + event.data.content);
+                location.assign("/" + siteID + "/" + event.data.content);
+            }
         }, false);
     }
     var fb = new Firebase("https://teachdo.firebaseio.com/");
@@ -84,7 +89,7 @@
         if(attachment) {
             attachmentName = attachment.name;
             attachmentURL = attachment.url;
-            if(uP(attachmentURL)[1] == "drive.google.com" && uP(attachmentURL)[0] == "https") {
+            if((uP(attachmentURL)[1] == "drive.google.com" || uP(attachmentURL)[1] == "docs.google.com") && uP(attachmentURL)[0] == "https") {
                 hasAttachment = true;
             }
         }
@@ -243,7 +248,7 @@
                     $('#loginBtn').off("click");
                     $('#signupContainer').transition({
                         scale: 0
-                    }, 600, "cubic-bezier(0,.81,.2,1)", function() {
+                    }, 600, "ease-in-out", function() {
                         location.reload();
                     });
                 }
