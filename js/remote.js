@@ -142,7 +142,7 @@
             });
             if(window.isHome) {
                 var cnt = 0;
-                $('#main').html("<br><div class='superCentre'><a class='btn btn-info' href='/" + siteID + "/posts'>All Posts</a></div>")
+                $('#main').html("<br><div class='superCentre' id='allPosts'><a class='btn btn-info' href='/" + siteID + "/posts'>All Posts</a></div>")
                 resolveLinks();
                 sitePath.child("postIndex").orderByChild("ts").limitToLast(10).on("child_added", function(ncS) {
                     cnt++;
@@ -155,6 +155,11 @@
                     }
                     $('#main').prepend(Mustache.render(template, newChild));
                     resolveLinks();
+                    if(cnt <= 5) {
+                        $('#allPosts').hide();
+                    } else {
+                        $('#allPosts').show();
+                    }
                 });
             } else if(window.isPost) {
                 sitePath.child("post/" + window.postID).once("value", function(postS) {
