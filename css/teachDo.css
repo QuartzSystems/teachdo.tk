@@ -51,7 +51,7 @@ footer {
     height: 3em;
 }
 .btn>.btn-iT {
-    font-size:0;
+    display:none;
     transform: scale(0);
     transition: all 0.3s ease-in-out;
 }
@@ -96,4 +96,7 @@ footer {
 }
 .forcePointer {
     cursor:pointer;
+}
+.hidden {
+    display:none;
 }

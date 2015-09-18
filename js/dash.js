@@ -40,5 +40,6 @@
             dash.getWebsites();
         });
     };
+    $('[data-toggle="tooltip"]').tooltip();
     dash.getAuth();
 })();

@@ -102,7 +102,9 @@
                 $('#dashManage-postsLink').attr("href", "/#dash/" + dashManage.page + "/posts");
                 $('#dashManage-newPostLink').click(function(e) {
                     e.preventDefault();
-                    $(this).transition({scale:0});
+                    $(this).transition({
+                        scale: 0
+                    });
                     window.newPageSiteID = dashManage.page;
                     $.getScript("/js/newPage.js");
                 });
@@ -114,6 +116,7 @@
                     $('#dashManage-apprUsersLink').attr("href", "#/dash/" + dashManage.page + "/approvedUsers");
                 }
                 dashManage.sett();
+                $('[data-toggle="tooltip"]').tooltip();
             } else {
                 location.hash = "#/404";
             }

@@ -71,6 +71,7 @@
                 posts.loadPosts();
             }
         });
+        $('[data-toggle="tooltip"]').tooltip();
     };
     posts.start = function() {
         posts.loadPosts();

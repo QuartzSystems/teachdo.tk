@@ -203,6 +203,7 @@
                 location.hash = "#/404";
             }
         });
+        $('[data-toggle="tooltip"]').tooltip();
     };
     window.edit = edit;
     edit.start();

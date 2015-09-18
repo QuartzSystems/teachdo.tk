@@ -102,8 +102,8 @@
                         right: 0
                     });
                     $('#main').transition({
-                        x: (-1 * screen.width) - 100
-                    }, 1000, "ease-in-out", function() {
+                        x: (-1 * screen.width) - 300
+                    }, 1100, "ease-in-out", function() {
                         $(this).remove();
                         $('footer').slideDown();
                     });
@@ -127,8 +127,8 @@
                         position: "absolute",
                         left: 0,
                         right: 0,
-                        x: screen.width + 100
-                    }, 1000, "ease-in-out", function() {
+                        x: screen.width + 300
+                    }, 1100, "ease-in-out", function() {
                         $(this).remove();
                         $('footer').slideDown();
                     });
